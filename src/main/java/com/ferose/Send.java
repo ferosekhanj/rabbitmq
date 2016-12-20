@@ -1,3 +1,4 @@
+package com.ferose;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
@@ -5,7 +6,7 @@ import com.rabbitmq.client.Channel;
 class Send{
 
     private final static String QUEUE_NAME = "hello";
-    public static void main(String[] argv) throws java.io.IOException {
+    public static void main(String[] argv) throws java.io.IOException,java.util.concurrent.TimeoutException {
 	ConnectionFactory factory = new ConnectionFactory();
 	factory.setHost("localhost");
 	Connection connection = factory.newConnection();
@@ -14,6 +15,8 @@ class Send{
 	String message = "Hello World!";
 	channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
 	System.out.println(" [x] Sent '" + message + "'");
+	channel.close();
+	connection.close();
     }
   
 }
